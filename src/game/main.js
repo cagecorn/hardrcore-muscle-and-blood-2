@@ -12,28 +12,31 @@ import { surveyEngine } from './utils/SurveyEngine.js';
 // Phaser를 CDN에서 불러와 배포 시 404 오류를 방지합니다.
 // ESM 빌드에는 기본 내보내기가 없으므로 전체 네임스페이스를 가져옵니다.
 import * as Phaser from 'https://cdn.jsdelivr.net/npm/phaser@3.90.0/dist/phaser.esm.js';
+
+// 논리적 게임 크기를 정의합니다.
+const logicalWidth = surveyEngine.canvas.width;  // 1920
+const logicalHeight = surveyEngine.canvas.height; // 1080
 //  Find out more information about the Game Config at:
 //  https://docs.phaser.io/api-documentation/typedef/types-core#gameconfig
 const config = {
     type: Phaser.AUTO,
-    // SurveyEngine에서 캔버스 크기를 가져옵니다.
-    width: surveyEngine.canvas.width,
-    height: surveyEngine.canvas.height,
-    parent: 'game-container',
-    transparent: true, // 캔버스 자체를 투명하게 설정합니다.
-    backgroundColor: 'transparent', // 배경색을 투명하게 만듭니다.
+    // scale 객체는 그대로 유지합니다. FIT 모드는 화면 비율을 유지하는 데 중요합니다.
     scale: {
+        width: logicalWidth,
+        height: logicalHeight,
         mode: Phaser.Scale.FIT,
-        autoCenter: Phaser.Scale.CENTER_BOTH,
-        // 정수 배율을 사용하여 픽셀 아트 표현을 개선합니다.
-        zoom: Math.floor(window.devicePixelRatio)
+        autoCenter: Phaser.Scale.CENTER_BOTH
     },
+    parent: 'game-container',
+    transparent: true,
+    backgroundColor: 'transparent',
     render: {
-        pixelArt: true,
-        antialias: false
+        pixelArt: false,
+        antialias: true,
+        // 이 resolution 설정이 핵심입니다. 페이저에게 물리적 픽셀 비율을 알려줍니다.
+        resolution: window.devicePixelRatio || 1,
+        roundPixels: true,
     },
-    // Boot 씬만 초기 설정에 등록합니다.
-    // Boot 씬이 실행되면서 나머지 씬들을 동적으로 추가합니다.
     scene: [Boot]
 };
 

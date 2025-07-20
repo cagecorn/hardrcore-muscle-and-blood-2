@@ -95,11 +95,16 @@ export class Preloader extends Scene
     create ()
     {
         // 전투 씬에서 사용될 주요 이미지들의 텍스처 필터링 모드를 설정하여 품질을 향상시킵니다.
-        const battleTextures = [ 'warrior', 'gunner', 'zombie' ];
+        const battleTextures = [
+            'warrior', 'gunner', 'zombie',
+            'battle-stage-cursed-forest', 'battle-stage-arena'
+        ];
 
         battleTextures.forEach(key => {
             if (this.textures.exists(key)) {
-                this.textures.get(key).setFilter(Phaser.Textures.FilterMode.NEAREST);
+                // 이 부분이 이미지를 부드럽게 스케일링 해줍니다.
+                // TRILINEAR는 고품질 필터링으로, 뭉개짐을 완화하는 데 도움이 됩니다.
+                this.textures.get(key).setFilter(Phaser.Textures.FilterMode.TRILINEAR);
             }
         });
 
