@@ -17,12 +17,8 @@ export class BattleDOMEngine {
             whiteSpace: 'nowrap',
             pointerEvents: 'none'
         };
-        const offset = { x: 0, y: -sprite.displayHeight / 2 };
+        const offset = { x: 0, y: sprite.displayHeight / 2 };
         this.domEngine.createSyncedText(sprite, name, style, offset);
-        debugPlacementLogManager.logNameplateCreation(
-            name,
-            sprite.x + offset.x,
-            sprite.y + offset.y
-        );
+        debugPlacementLogManager.logNameplateCreation(name, sprite.x + offset.x, sprite.y + offset.y);
     }
 }
