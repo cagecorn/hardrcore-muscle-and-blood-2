@@ -5,11 +5,13 @@ import { mercenaryEngine } from '../utils/MercenaryEngine.js';
 import { partyEngine } from '../utils/PartyEngine.js';
 import { monsterEngine } from '../utils/MonsterEngine.js';
 import { getMonsterBase } from '../data/monster.js';
+import { CameraControlEngine } from '../utils/CameraControlEngine.js';
 
 export class CursedForestBattleScene extends Scene {
     constructor() {
         super('CursedForestBattle');
         this.stageManager = null;
+        this.cameraControl = null;
     }
 
     create() {
@@ -21,6 +23,7 @@ export class CursedForestBattleScene extends Scene {
 
         this.stageManager = new BattleStageManager(this);
         this.stageManager.createStage('battle-stage-cursed-forest');
+        this.cameraControl = new CameraControlEngine(this);
 
         // 아군 배치
         const partyIds = partyEngine.getPartyMembers().filter(id => id !== undefined);
@@ -44,6 +47,10 @@ export class CursedForestBattleScene extends Scene {
 
             if (this.stageManager) {
                 this.stageManager.destroy();
+            }
+            if (this.cameraControl) {
+                this.cameraControl.destroy();
+                this.cameraControl = null;
             }
         });
     }
