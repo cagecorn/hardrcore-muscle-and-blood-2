@@ -17,6 +17,12 @@ export class Preloader extends Scene
 
         // 모든 리소스 로드 완료 후 로고를 중앙에 표시하고 스케일을 조정합니다.
         this.load.on('complete', () => {
+            // 로드된 모든 텍스처에 대해 트리리니어 필터를 적용하여
+            // 축소 시 화질 저하를 최소화합니다.
+            this.textures.getTextureKeys().forEach(key => {
+                this.textures.get(key).setFilter(Phaser.Textures.FilterMode.TRILINEAR);
+            });
+
             const logo = this.add.image(512, 300, 'logo');
             const logoTexture = this.textures.get('logo');
             if (logoTexture.key !== '__MISSING') {
