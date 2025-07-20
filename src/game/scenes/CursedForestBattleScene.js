@@ -6,16 +6,14 @@ import { partyEngine } from '../utils/PartyEngine.js';
 import { monsterEngine } from '../utils/MonsterEngine.js';
 import { getMonsterBase } from '../data/monster.js';
 import { CameraControlEngine } from '../utils/CameraControlEngine.js';
-import { DOMEngine } from '../utils/DOMEngine.js';
-import { BattleDOMEngine } from '../dom/BattleDOMEngine.js';
+import { NameplateLayer } from '../utils/NameplateLayer.js';
 
 export class CursedForestBattleScene extends Scene {
     constructor() {
         super('CursedForestBattle');
         this.stageManager = null;
         this.cameraControl = null;
-        this.domEngine = null;
-        this.battleDom = null;
+        this.nameplateLayer = null;
     }
 
     create() {
@@ -28,8 +26,7 @@ export class CursedForestBattleScene extends Scene {
         this.stageManager = new BattleStageManager(this);
         this.stageManager.createStage('battle-stage-cursed-forest');
         this.cameraControl = new CameraControlEngine(this);
-        this.domEngine = new DOMEngine(this);
-        this.battleDom = new BattleDOMEngine(this, this.domEngine);
+        this.nameplateLayer = new NameplateLayer(this);
 
         // 아군 배치
         const partyIds = partyEngine.getPartyMembers().filter(id => id !== undefined);
@@ -47,11 +44,11 @@ export class CursedForestBattleScene extends Scene {
 
         allySprites.forEach((sprite, idx) => {
             const unit = partyUnits[idx];
-            if (unit) this.battleDom.addUnitName(sprite, unit.instanceName || unit.name, true);
+            if (unit) this.nameplateLayer.addNameplate(sprite, unit.instanceName || unit.name, true);
         });
         enemySprites.forEach((sprite, idx) => {
             const unit = monsters[idx];
-            if (unit) this.battleDom.addUnitName(sprite, unit.instanceName || unit.name, false);
+            if (unit) this.nameplateLayer.addNameplate(sprite, unit.instanceName || unit.name, false);
         });
 
         this.events.on('shutdown', () => {
@@ -67,8 +64,10 @@ export class CursedForestBattleScene extends Scene {
                 this.cameraControl.destroy();
                 this.cameraControl = null;
             }
-            this.domEngine = null;
-            this.battleDom = null;
+            if (this.nameplateLayer) {
+                this.nameplateLayer.destroy();
+                this.nameplateLayer = null;
+            }
         });
     }
 }
