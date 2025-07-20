@@ -5,8 +5,7 @@ export class CameraControlEngine {
         this.isDragging = false;
         this.dragStartX = 0;
         this.dragStartY = 0;
-        // 전투 타일 크기가 커진 관계로 더 넓은 영역을 볼 수 있도록 최소 줌값을 낮춥니다.
-        this.minZoom = 0.1;
+        this.minZoom = 0.5;
         this.maxZoom = 3;
 
         this._registerEvents();
