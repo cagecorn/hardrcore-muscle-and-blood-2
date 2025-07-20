@@ -33,8 +33,7 @@ export class DOMEngine {
         const textElement = document.createElement('div');
         textElement.innerText = text;
         textElement.style.position = 'relative';
-        // 기준점을 중앙 상단으로 변경하여 오프셋이 정확히 적용되도록 한다
-        textElement.style.transform = 'translate(-50%, -100%)';
+        textElement.style.transform = 'translate(-50%, 0)';
         Object.assign(textElement.style, style); // 전달된 스타일 적용
 
         wrapper.appendChild(textElement);
