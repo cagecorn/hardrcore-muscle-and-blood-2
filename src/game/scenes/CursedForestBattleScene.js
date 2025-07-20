@@ -6,12 +6,16 @@ import { partyEngine } from '../utils/PartyEngine.js';
 import { monsterEngine } from '../utils/MonsterEngine.js';
 import { getMonsterBase } from '../data/monster.js';
 import { CameraControlEngine } from '../utils/CameraControlEngine.js';
+import { DOMEngine } from '../utils/DOMEngine.js';
+import { BattleDOMEngine } from '../dom/BattleDOMEngine.js';
 
 export class CursedForestBattleScene extends Scene {
     constructor() {
         super('CursedForestBattle');
         this.stageManager = null;
         this.cameraControl = null;
+        this.domEngine = null;
+        this.battleDom = null;
     }
 
     create() {
@@ -24,12 +28,14 @@ export class CursedForestBattleScene extends Scene {
         this.stageManager = new BattleStageManager(this);
         this.stageManager.createStage('battle-stage-cursed-forest');
         this.cameraControl = new CameraControlEngine(this);
+        this.domEngine = new DOMEngine(this);
+        this.battleDom = new BattleDOMEngine(this, this.domEngine);
 
         // 아군 배치
         const partyIds = partyEngine.getPartyMembers().filter(id => id !== undefined);
         const allMercs = mercenaryEngine.getAllAlliedMercenaries();
         const partyUnits = allMercs.filter(m => partyIds.includes(m.uniqueId));
-        formationEngine.applyFormation(this, partyUnits);
+        const allySprites = formationEngine.applyFormation(this, partyUnits);
 
         // 적 몬스터 생성 및 배치
         const monsters = [];
@@ -37,7 +43,16 @@ export class CursedForestBattleScene extends Scene {
         for (let i = 0; i < 5; i++) {
             monsters.push(monsterEngine.spawnMonster(zombieBase, 'enemy'));
         }
-        formationEngine.placeMonsters(this, monsters, 8);
+        const enemySprites = formationEngine.placeMonsters(this, monsters, 8);
+
+        allySprites.forEach((sprite, idx) => {
+            const unit = partyUnits[idx];
+            if (unit) this.battleDom.addUnitName(sprite, unit.instanceName || unit.name, true);
+        });
+        enemySprites.forEach((sprite, idx) => {
+            const unit = monsters[idx];
+            if (unit) this.battleDom.addUnitName(sprite, unit.instanceName || unit.name, false);
+        });
 
         this.events.on('shutdown', () => {
             ['dungeon-container', 'territory-container'].forEach(id => {
@@ -52,6 +67,8 @@ export class CursedForestBattleScene extends Scene {
                 this.cameraControl.destroy();
                 this.cameraControl = null;
             }
+            this.domEngine = null;
+            this.battleDom = null;
         });
     }
 }
