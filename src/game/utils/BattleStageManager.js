@@ -27,9 +27,19 @@ export class BattleStageManager {
 
         const scale = Math.max(scaleX, scaleY);
         bg.setScale(scale);
-        const cellWidth = width / 16;
-        const cellHeight = height / 9;
-        this.gridEngine.createGrid({ x: 0, y: 0, cols: 16, rows: 9, cellWidth, cellHeight });
+        const cellWidth = 512;
+        const cellHeight = 512;
+        const cols = 16;
+        const rows = 9;
+        this.gridEngine.createGrid({ x: 0, y: 0, cols, rows, cellWidth, cellHeight });
+
+        // 카메라를 배틀 그리드 전체가 화면에 들어오도록 조정합니다.
+        const cam = this.scene.cameras.main;
+        const zoomX = width / (cols * cellWidth);
+        const zoomY = height / (rows * cellHeight);
+        const zoom = Math.min(zoomX, zoomY);
+        cam.setZoom(zoom);
+        cam.centerOn((cols * cellWidth) / 2, (rows * cellHeight) / 2);
         // 그리드 선을 보이지 않게 설정
         if (this.gridEngine.graphics) {
             this.gridEngine.graphics.setAlpha(0);
