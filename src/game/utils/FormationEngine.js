@@ -1,4 +1,5 @@
 import * as Phaser from 'https://cdn.jsdelivr.net/npm/phaser@3.90.0/dist/phaser.esm.js';
+import { debugPlacementLogManager } from '../debug/DebugPlacementLogManager.js';
 
 class FormationEngine {
     constructor() {
@@ -36,6 +37,7 @@ class FormationEngine {
             if (!cell) return;
             const spriteKey = unit.spriteKey || unit.battleSprite || unit.id || unit.name;
             const sprite = scene.add.image(cell.x, cell.y, spriteKey);
+            debugPlacementLogManager.logSpriteCreation(unit.instanceName || unit.name, cell.x, cell.y);
             // 픽셀 아트 선명도를 위해 텍스처 필터를 Nearest로 설정합니다.
             sprite.setTexture(spriteKey);
             sprite.texture.setFilter(Phaser.Textures.FilterMode.NEAREST);
@@ -71,6 +73,7 @@ class FormationEngine {
             cell.isOccupied = true;
             const spriteKey = mon.spriteKey || mon.battleSprite || mon.id || mon.name;
             const sprite = scene.add.image(cell.x, cell.y, spriteKey);
+            debugPlacementLogManager.logSpriteCreation(mon.instanceName || mon.name, cell.x, cell.y);
             sprite.setTexture(spriteKey);
             sprite.texture.setFilter(Phaser.Textures.FilterMode.NEAREST);
             sprite.setData('unitId', mon.uniqueId);
