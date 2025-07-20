@@ -1,5 +1,4 @@
 import { DOMEngine } from '../utils/DOMEngine.js';
-import { debugPlacementLogManager } from '../debug/DebugPlacementLogManager.js';
 
 export class BattleDOMEngine {
     constructor(scene, domEngine) {
@@ -19,6 +18,5 @@ export class BattleDOMEngine {
         };
         const offset = { x: 0, y: sprite.displayHeight / 2 };
         this.domEngine.createSyncedText(sprite, name, style, offset);
-        debugPlacementLogManager.logNameplateCreation(name, sprite.x + offset.x, sprite.y + offset.y);
     }
 }
