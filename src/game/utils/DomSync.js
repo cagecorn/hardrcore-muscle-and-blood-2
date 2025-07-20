@@ -37,9 +37,15 @@ export class DomSync {
         // 페이지 내에서 캔버스의 절대 위치를 가져옵니다.
         const gameBounds = this.scene.sys.game.canvas.getBoundingClientRect();
 
+        // 캔버스의 실제 렌더 크기 대비 표시 크기의 비율을 계산합니다.
+        const baseWidth = this.scene.sys.game.config.width;
+        const baseHeight = this.scene.sys.game.config.height;
+        const scaleX = gameBounds.width / baseWidth;
+        const scaleY = gameBounds.height / baseHeight;
+
         // 카메라의 스크롤과 줌을 고려하여 게임 오브젝트의 화면상 위치를 계산합니다.
-        const screenX = (x + this.offset.x - scrollX) * zoom;
-        const screenY = (y + this.offset.y - scrollY) * zoom;
+        const screenX = (x + this.offset.x - scrollX) * zoom * scaleX;
+        const screenY = (y + this.offset.y - scrollY) * zoom * scaleY;
 
         // DOM 요소가 위치할 최종 좌표입니다.
         const domX = gameBounds.left + screenX;
@@ -47,7 +53,8 @@ export class DomSync {
 
         // transform 속성을 사용하여 DOM 요소의 위치와 크기를 한 번에 적용합니다.
         // top/left를 직접 바꾸는 것보다 성능상 이점이 있습니다.
-        this.domElement.style.transform = `translate(${domX}px, ${domY}px) scale(${zoom})`;
+        const uniformScale = zoom * Math.min(scaleX, scaleY);
+        this.domElement.style.transform = `translate(${domX}px, ${domY}px) scale(${uniformScale})`;
     }
 
     /**
