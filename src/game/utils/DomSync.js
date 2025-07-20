@@ -7,11 +7,12 @@ export class DomSync {
      * @param {Phaser.GameObjects.GameObject} gameObject 동기화할 Phaser 게임 오브젝트
      * @param {HTMLElement} domElement 동기화할 HTML DOM 요소
      */
-    constructor(scene, gameObject, domElement) {
+    constructor(scene, gameObject, domElement, offset = { x: 0, y: 0 }) {
         this.scene = scene;
         this.gameObject = gameObject;
         this.domElement = domElement;
         this.camera = scene.cameras.main;
+        this.offset = offset;
 
         // DOM 요소의 스타일을 초기 설정합니다.
         // CSS transform을 사용하기 위해 position을 absolute로 설정합니다.
@@ -37,8 +38,8 @@ export class DomSync {
         const gameBounds = this.scene.sys.game.canvas.getBoundingClientRect();
 
         // 카메라의 스크롤과 줌을 고려하여 게임 오브젝트의 화면상 위치를 계산합니다.
-        const screenX = (x - scrollX) * zoom;
-        const screenY = (y - scrollY) * zoom;
+        const screenX = (x + this.offset.x - scrollX) * zoom;
+        const screenY = (y + this.offset.y - scrollY) * zoom;
 
         // DOM 요소가 위치할 최종 좌표입니다.
         const domX = gameBounds.left + screenX;

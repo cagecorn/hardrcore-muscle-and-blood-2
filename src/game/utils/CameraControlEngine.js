@@ -6,7 +6,7 @@ export class CameraControlEngine {
         this.dragStartX = 0;
         this.dragStartY = 0;
         this.minZoom = 0.5;
-        this.maxZoom = 2;
+        this.maxZoom = 3;
 
         this._registerEvents();
         scene.events.on('shutdown', this.destroy, this);

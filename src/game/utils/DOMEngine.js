@@ -26,19 +26,24 @@ export class DOMEngine {
      * @param {object} style - CSS 스타일을 담은 객체
      * @returns {HTMLElement} 생성된 DOM 요소
      */
-    createSyncedText(target, text, style = {}) {
+    createSyncedText(target, text, style = {}, offset = { x: 0, y: 0 }) {
+        const wrapper = document.createElement('div');
+        wrapper.style.position = 'absolute';
+
         const textElement = document.createElement('div');
         textElement.innerText = text;
-        textElement.style.position = 'absolute';
+        textElement.style.position = 'relative';
+        textElement.style.transform = 'translate(-50%, 0)';
         Object.assign(textElement.style, style); // 전달된 스타일 적용
 
-        this.uiContainer.appendChild(textElement);
+        wrapper.appendChild(textElement);
+        this.uiContainer.appendChild(wrapper);
 
         // DomSync 인스턴스를 만들어 동기화 목록에 추가
-        const sync = new DomSync(this.scene, target, textElement);
+        const sync = new DomSync(this.scene, target, wrapper, offset);
         this.activeSyncs.push(sync);
 
-        return textElement;
+        return wrapper;
     }
 
     /**
