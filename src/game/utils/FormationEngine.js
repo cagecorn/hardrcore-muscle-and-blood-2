@@ -43,16 +43,14 @@ class FormationEngine {
             sprite.texture.setFilter(Phaser.Textures.FilterMode.NEAREST);
             sprite.setData('unitId', unit.uniqueId);
             const texture = scene.textures.get(spriteKey);
-            sprite.setOrigin(0.5, 1);
-            const targetSize = 240;
             if (texture && texture.source[0]) {
                 const scale = Math.min(
-                    targetSize / texture.source[0].width,
-                    targetSize / texture.source[0].height
+                    cell.width / texture.source[0].width,
+                    cell.height / texture.source[0].height
                 );
                 sprite.setScale(scale);
             } else {
-                sprite.setDisplaySize(targetSize, targetSize);
+                sprite.setDisplaySize(cell.width, cell.height);
             }
             sprites.push(sprite);
         });
@@ -80,16 +78,14 @@ class FormationEngine {
             sprite.texture.setFilter(Phaser.Textures.FilterMode.NEAREST);
             sprite.setData('unitId', mon.uniqueId);
             const texture = scene.textures.get(spriteKey);
-            sprite.setOrigin(0.5, 1);
-            const targetSize = 240;
             if (texture && texture.source[0]) {
                 const scale = Math.min(
-                    targetSize / texture.source[0].width,
-                    targetSize / texture.source[0].height
+                    cell.width / texture.source[0].width,
+                    cell.height / texture.source[0].height
                 );
                 sprite.setScale(scale);
             } else {
-                sprite.setDisplaySize(targetSize, targetSize);
+                sprite.setDisplaySize(cell.width, cell.height);
             }
             sprites.push(sprite);
         });

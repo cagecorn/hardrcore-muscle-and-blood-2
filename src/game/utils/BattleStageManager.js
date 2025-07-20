@@ -27,9 +27,8 @@ export class BattleStageManager {
 
         const scale = Math.max(scaleX, scaleY);
         bg.setScale(scale);
-        // 전투 그리드 타일 크기를 고정값 120으로 설정합니다.
-        const cellWidth = 120;
-        const cellHeight = 120;
+        const cellWidth = width / 16;
+        const cellHeight = height / 9;
         this.gridEngine.createGrid({ x: 0, y: 0, cols: 16, rows: 9, cellWidth, cellHeight });
         // 그리드 선을 보이지 않게 설정
         if (this.gridEngine.graphics) {

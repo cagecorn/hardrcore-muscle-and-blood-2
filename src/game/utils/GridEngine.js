@@ -33,8 +33,7 @@ export class GridEngine {
                 // 각 칸의 정보를 객체로 만들어 배열에 저장
                 const cell = {
                     x: cellX + cellWidth / 2,
-                    // y 좌표는 타일의 바닥 중앙을 기준으로 합니다.
-                    y: cellY + cellHeight,
+                    y: cellY + cellHeight / 2,
                     width: cellWidth,
                     height: cellHeight,
                     col: col,
