@@ -17,7 +17,9 @@ export class BattleDOMEngine {
             whiteSpace: 'nowrap',
             pointerEvents: 'none'
         };
-        const offset = { x: 0, y: sprite.displayHeight / 2 };
+        // 이름표가 유닛 위에 위치하도록 오프셋을 조정합니다.
+        // 약간의 간격을 두어 시각적으로 분리합니다.
+        const offset = { x: 0, y: -sprite.displayHeight / 2 - 10 };
         this.domEngine.createSyncedText(sprite, name, style, offset);
         debugPlacementLogManager.logNameplateCreation(name, sprite.x + offset.x, sprite.y + offset.y);
     }
