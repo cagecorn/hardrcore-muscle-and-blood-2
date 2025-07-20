@@ -5,7 +5,8 @@ export class CameraControlEngine {
         this.isDragging = false;
         this.dragStartX = 0;
         this.dragStartY = 0;
-        this.minZoom = 0.5;
+        // 최소 줌 레벨을 낮춰서 넓어진 전장을 한눈에 볼 수 있게 합니다.
+        this.minZoom = 0.15;
         this.maxZoom = 3;
 
         this._registerEvents();
