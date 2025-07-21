@@ -36,6 +36,14 @@ The local development server runs on `http://localhost:8080` by default. Please 
 
 Once the server is running you can edit any of the files in the `src` folder. Vite will automatically recompile your code and then reload the browser.
 
+## Graphics Quality
+
+The default game configuration enables antialiasing and sets a high-quality
+mipmapping filter (`LINEAR_MIPMAP_LINEAR`). This reduces blurriness when the
+camera zooms out or images are displayed at smaller sizes. You can adjust these
+options in `src/game/main.js` under the `render` property if you need different
+performance characteristics.
+
 ## Template Project Structure
 
 We have provided a default project structure to get you started. This is as follows:
