@@ -15,7 +15,7 @@ import * as Phaser from 'https://cdn.jsdelivr.net/npm/phaser@3.90.0/dist/phaser.
 //  Find out more information about the Game Config at:
 //  https://docs.phaser.io/api-documentation/typedef/types-core#gameconfig
 const config = {
-    type: Phaser.AUTO,
+    type: Phaser.CANVAS,
     // SurveyEngine에서 캔버스 크기를 가져옵니다.
     width: surveyEngine.canvas.width,
     height: surveyEngine.canvas.height,
